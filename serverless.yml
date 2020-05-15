@@ -1,0 +1,25 @@
+service: ecr-service
+
+provider:
+  name: aws
+
+resources:
+  Resources:
+    DockerForECR:
+        Type: AWS::ECR::Repository
+        Properties:
+            RepositoryName: myRepoName
+            RepositoryPolicyText:
+                Version: "2012-10-17"
+                Statement:
+                  - Sid: CodeBuildAccess
+                    Effect: Allow
+                    Principal:
+                        AWS: myAwsRole
+                    Action:
+                      - "ecr:*"
+  Outputs:
+    DockerForECR:
+      Description: "ECR to host the docker images"
+      Value:
+        Ref: DockerForECR
